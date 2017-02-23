@@ -1,5 +1,5 @@
-import * as fsp from "fs-promise";
 import { execSync } from "child_process";
+import * as fsp from "fs-promise";
 import { dirname } from "path";
 
 import { Options } from "./lib/common";
@@ -34,7 +34,6 @@ export default async function main(options: Options): Promise<void> {
 		exec(`git checkout ${sourceBranch}`, dtPath);
 	}
 }
-
 
 function exec(cmd: string, cwd?: string): string {
 	console.log(`Exec${cwd ? " at " + cwd : ""}: ${cmd}`);
