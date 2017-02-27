@@ -1,4 +1,4 @@
-import { parseHeaderOrFail } from "dt-header";
+import { parseHeaderOrFail } from "definitelytyped-header-parser";
 import * as fsp from "fs-promise";
 import * as ts from "typescript";
 
@@ -86,7 +86,7 @@ async function getTypingData(packageName: string, directory: string, ls: string[
 	const mainFilename = "index.d.ts";
 
 	const { contributors, libraryMajorVersion, libraryMinorVersion, typeScriptVersion, libraryName, projects } =
-		parseHeaderOrFail(await readFile(directory, mainFilename), packageName);
+		parseHeaderOrFail(await readFile(directory, mainFilename));
 
 	const { typeFiles, testFiles } = await entryFilesFromTsConfig(packageName, directory);
 	const { dependencies: dependenciesSet, globals, declaredModules, declFiles } = await getModuleInfo(packageName, directory, typeFiles, log);

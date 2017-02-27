@@ -1,5 +1,5 @@
 import assert = require("assert");
-import { TypeScriptVersion } from "dt-header";
+import { TypeScriptVersion } from "definitelytyped-header-parser";
 
 import { readJson } from "../util/io";
 import { joinPaths, mapValues } from "../util/util";
