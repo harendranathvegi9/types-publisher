@@ -7,7 +7,7 @@ import { computeHash, hasWindowsSlashes, join, joinPaths, mapAsyncOrdered } from
 
 import { Options } from "./common";
 import { parseHeaderOrFail } from "./header";
-import getModuleInfo from "./module-info";
+import getModuleInfo, { getTestDependencies } from "./module-info";
 import { DependenciesRaw, PathMappingsRaw, TypingsDataRaw, TypingsVersionsRaw, packageRootPath } from "./packages";
 
 export async function getTypingInfo(packageName: string, options: Options): Promise<{ data: TypingsVersionsRaw, logs: Log }> {
@@ -90,6 +90,7 @@ async function getTypingData(packageName: string, directory: string, ls: string[
 
 	const { typeFiles, testFiles } = await entryFilesFromTsConfig(packageName, directory);
 	const { dependencies: dependenciesSet, globals, declaredModules, declFiles } = await getModuleInfo(packageName, directory, typeFiles, log);
+	const testDependencies = await getTestDependencies(packageName, directory, testFiles, dependenciesSet);
 	const { dependencies, pathMappings } = await calculateDependencies(packageName, directory, dependenciesSet, oldMajorVersion);
 
 	const hasPackageJson = await fsp.exists(joinPaths(directory, "package.json"));
@@ -110,6 +111,7 @@ async function getTypingData(packageName: string, directory: string, ls: string[
 	const data: TypingsDataRaw = {
 		contributors,
 		dependencies,
+		testDependencies,
 		pathMappings,
 		libraryMajorVersion,
 		libraryMinorVersion,
